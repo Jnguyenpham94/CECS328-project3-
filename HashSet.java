@@ -74,6 +74,24 @@ public class HashSet<T> {
         // 2. you find the key
         // 3. you fail n times.
 
+        int i = 0;
+        int m = 7;
+        int probing = (i * i + i) / 2;
+        int value = Math.abs(key.hashCode());
+        while (i < tableSize) {
+            value += probing;
+            value %= tableSize;
+            if(key.equals(value){
+                return true;
+            }
+            else if(mTable[value] == null){
+                return true;
+            }
+            else if(i == m){ //coprime value may need a smaller one
+                return false;
+            }
+            i++;
+        }
         // TODO: finish this method
         return false;
     }
