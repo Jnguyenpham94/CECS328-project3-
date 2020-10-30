@@ -12,7 +12,8 @@ public class Main {
             BufferedReader read = new BufferedReader(new FileReader("trump_speech.txt"));
             String line;
             while ((line = read.readLine()) != null){
-                table.add(line);
+                String parts = line.replaceAll("[^a-zA-Z ]", "");
+                table.add(parts);
             }
             read.close();
             /*
