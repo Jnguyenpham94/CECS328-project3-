@@ -1,11 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) {
-        HashSet<String> table = new HashSet<>();
+        HashSet<Object> table = new HashSet<>();
         table.HashMap(50);
         try {
             BufferedReader read = new BufferedReader(new FileReader("trump_speech.txt"));
@@ -14,14 +15,18 @@ public class Main {
                 table.add(line);
             }
             read.close();
+            /*
+            for(int i=0; i < tableSize - 1;i++){
+                System.out.println(table[i]);
+            }*/
         }
          catch (FileNotFoundException e) {
             System.out.println("FILE NOT FOUND");
             e.printStackTrace();
-        } catch (Exception f){
-            System.out.println("FILE ERROR");
+        } catch (IOException f){
+            System.out.println("I/O ERROR");
             f.printStackTrace();
         }
-        
     }
+
 }

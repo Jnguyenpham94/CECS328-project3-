@@ -5,28 +5,35 @@ public class HashSet<T> {
     private class Entry {
         public T mKey;
         public boolean mIsNil;
+
+        private Entry(T key, boolean mIsNil){
+            this.mKey = key;
+            this.mIsNil = mIsNil;
+        }
     }
 
     private Entry[] mTable;
     private int mCount; // the number of elements in the set, i.e., "n"
-    private int tableSize;
+    public int tableSize;
 
     // Constructs a hashtable with the given size.
-    public void HashMap(int tableSize) {
+    public int HashMap(int tableSize) {
         int power = 1;
-        while (power < tableSize) {
+        while (power < tableSize || power == tableSize) {
             power *= 2;
         }
-        tableSize = power;
+        this.tableSize = power;
+        tableSize = this.tableSize;
         // The next line is a workaround for Java not liking us making an array
         // of a generic type. (Node is a generic type because it has generic
         // members.)
-        mTable = (Entry[]) Array.newInstance(Entry.class, tableSize);
+        mTable = (HashSet.Entry[]) Array.newInstance(Entry.class, tableSize);
 
         // mTable's entries are all null initially.
         // mTable[i] == null ---> nothing has ever lived at index i
         // mTable[i] != null && mTable[i].mIsNil ---> something used to be here but was
         // removed.
+        return tableSize;
     }
 
     // Inserts the given key and value into the table, assuming no entry with
@@ -40,9 +47,23 @@ public class HashSet<T> {
         if (count() > loadFactor()) {
             HashSet<String> table = new HashSet<>();
             table.HashMap(tableSize * 2);
-
         }
-        mCount++;
+        int i = 0;
+        int probing = (i * i + i) / 2;
+        int value = Math.abs(key.hashCode());
+        while (i < tableSize) {
+            value += probing;
+            value %= tableSize;
+            if(mTable[value] == null){
+                mTable[value] = (HashSet<T>.Entry) key;
+                mCount++;
+                break;
+            }
+            //else if(mTable[value] == mIsNil){
+               // i++;
+            //}
+            i++;
+        }
         // TODO: finish this method. You must NOT allow duplicates to be inserted.
     }
 
@@ -65,6 +86,19 @@ public class HashSet<T> {
         // 3. you fail n times.
 
         // TODO: finish this method.
+        int i = 0;
+        int probing = (i * i + i) / 2;
+        int value = Math.abs(key.hashCode());
+        while (i < tableSize) {
+            value += probing;
+            value %= tableSize;
+            if(mTable[value] != null){
+                mTable[value] = (HashSet<T>.Entry) key;
+                mCount++;
+                break;
+            }
+            i++;
+        }
     }
 
     public int count() {
