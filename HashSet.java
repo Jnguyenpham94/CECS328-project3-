@@ -10,6 +10,12 @@ public class HashSet<T> {
             this.mKey = key;
             this.mIsNil = mIsNil;
         }
+
+        //TODO: find a way to display all of the words in the hash set not necessary for project apparently but still would be nice
+        @Override
+        public String toString(){
+            return mTable.length + "\n";
+        }
     }
 
     private Entry[] mTable;
@@ -51,11 +57,14 @@ public class HashSet<T> {
     public void add(T key) {
         // TODO: finish this method. You must NOT allow duplicates to be inserted.
         if (count() > loadFactor()) {
-            HashSet<String> table = new HashSet<>();
-            table.HashMap(tableSize * 2);
+            HashMap(tableSize * 2);
+            for(int i= 0; i < tableSize - 1; i++){
+                add(key);
+            }
         }
         if(find(key) == true){
             mTable[value] = new Entry(key, false);
+            mCount++;
         }
     }
 
@@ -76,9 +85,9 @@ public class HashSet<T> {
         while (i < tableSize) {
             value += probing;
             value %= tableSize;
-            if (key.equals(value)) {
+            if (mTable[value] == null) {// usually for add
                 return true;
-            } else if (mTable[value] == null) {
+            } else if (key.equals(value)) { // for remove 
                 return true;
             } else if (i == m) { // coprime value may need a smaller one
                 return false;
@@ -98,13 +107,17 @@ public class HashSet<T> {
      * @param key
      */
     public void remove(T key) {
-        // TODO: finish this method.
         if(find(key) == true){
             mTable[value] = new Entry(key, true);
+            mCount--;
         }
         else{
             System.out.println(key + " not found");
         }
+    }
+
+    public int getTableSize(){
+        return tableSize;
     }
 
     public int count() {
