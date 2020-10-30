@@ -11,7 +11,7 @@ public class HashSet<T> {
             this.mIsNil = mIsNil;
         }
 
-        //TODO: find a way to display all of the words in the hash set not necessary for project apparently but still would be nice
+        //find a way to display all of the words in the hash set not necessary for project apparently but still would be nice
         @Override
         public String toString(){
             return mTable.length + "\n";
@@ -55,7 +55,7 @@ public class HashSet<T> {
      * @param key
      */
     public void add(T key) {
-        // TODO: finish this method. You must NOT allow duplicates to be inserted.
+        // finish this method. You must NOT allow duplicates to be inserted.
         if (count() > loadFactor()) {
             HashMap(tableSize * 2);
             for(int i= 0; i < tableSize - 1; i++){
